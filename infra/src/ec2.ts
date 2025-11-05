@@ -5,6 +5,7 @@ import {
   AuthorizeSecurityGroupIngressCommand,
   DescribeSecurityGroupsCommand,
   RunInstancesCommand,
+  RunInstancesCommandInput,
   CreateTagsCommand,
   AllocateAddressCommand,
   AssociateAddressCommand,
@@ -13,15 +14,12 @@ import {
 import { ec2, REGION_CONST } from "./aws";
 
 const PROJECT = required("PROJECT_NAME");
-const INSTANCE_TYPE = env("EC2_TYPE", "t3.medium");
+const INSTANCE_TYPE = required("EC2_TYPE");
 const KEY_NAME = required("EC2_KEY_NAME");
-const USE_EIP = env("USE_EIP", "true").toLowerCase() === "true";
+const USE_EIP = required("USE_EIP").toLowerCase() === "true";
 
-function env(k: string, d?: string) {
-  return process.env[k] ?? d ?? "";
-}
 function required(k: string) {
-  const v = env(k);
+  const v = process.env[k];
   if (!v) throw new Error(`Missing env: ${k}`);
   return v;
 }
@@ -119,7 +117,7 @@ async function main() {
           ],
         },
       ],
-    })
+    } as RunInstancesCommandInput)
   );
   const instanceId = run.Instances?.[0]?.InstanceId!;
   await ec2.send(
