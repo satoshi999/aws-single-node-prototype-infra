@@ -20,9 +20,10 @@ on:
         description: "Project name (tag/prefix)"
         default: "aws-server-template"
         type: string
-
-env:
-  AWS_REGION: ap-northeast-1
+      region:
+        description: "AWS REGION"
+        default: "ap-northeast-1"
+        type: string
 
 jobs:
   cdk-deploy:
@@ -44,7 +45,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ inputs.region }}
 
       - name: CDK Bootstrap (once per account/region)
         working-directory: infra
