@@ -1,0 +1,61 @@
+name: 02 Provision Cognito (one-time)
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_name:
+        description: "Project name (=UserPool名)"
+        default: "aws-server-template"
+        type: string
+      domain_prefix:
+        description: "Domain prefix(半角英数字ハイフンのみで25文字以内)"
+        default: "aws-server-template"
+        type: string
+      callback_url:
+        description: "Callback URL (ex: http://<PublicIp>/)"
+        type: string
+        required: true
+      logout_url:
+        description: "Logout URL (default=Callback)"
+        type: string
+        required: false
+      region:
+        description: "AWS REGION"
+        default: "ap-northeast-1"
+        type: string
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node (match Volta)
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: infra/package.json
+      - name: Install deps
+        working-directory: infra
+        run: npm ci
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.region }}
+
+      - name: Create Cognito
+        working-directory: infra
+        env:
+          PROJECT_NAME: ${{ inputs.project_name }}
+          COGNITO_DOMAIN_PREFIX: ${{ inputs.project_name }}
+          COGNITO_CALLBACK_URL: ${{ inputs.callback_url }}
+          COGNITO_LOGOUT_URL: ${{ inputs.logout_url || inputs.callback_url }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+        run: npm run cognito
+
+      - name: Note for Google console
+        run: |
+          echo "Add this Authorized redirect URI in Google Cloud:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**https://<CognitoDomain>/oauth2/idpresponse**" >> $GITHUB_STEP_SUMMARY
