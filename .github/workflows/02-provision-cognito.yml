@@ -9,7 +9,7 @@ on:
         type: string
       domain_prefix:
         description: "Domain prefix(半角英数字ハイフンのみで25文字以内)"
-        default: "aws-server-template"
+        default: "server-template"
         type: string
       callback_url:
         description: "Callback URL (ex: http://<PublicIp>/)"
@@ -47,7 +47,7 @@ jobs:
         working-directory: infra
         env:
           PROJECT_NAME: ${{ inputs.project_name }}
-          COGNITO_DOMAIN_PREFIX: ${{ inputs.project_name }}
+          COGNITO_DOMAIN_PREFIX: ${{ inputs.domain_prefix }}
           COGNITO_CALLBACK_URL: ${{ inputs.callback_url }}
           COGNITO_LOGOUT_URL: ${{ inputs.logout_url || inputs.callback_url }}
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
