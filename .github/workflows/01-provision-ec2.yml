@@ -31,10 +31,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node (match Volta)
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version-file: infra/package.json
 
       - name: Install CDK deps
         working-directory: infra
@@ -47,10 +47,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ inputs.region }}
 
-      - name: CDK Bootstrap (once per account/region)
-        working-directory: infra
-        run: npx cdk bootstrap
-
       - name: CDK Deploy EC2 stack
         working-directory: infra
         env:
@@ -59,7 +55,9 @@ jobs:
           EC2_TYPE: ${{ inputs.instance_type }}
           USE_EIP: ${{ inputs.use_elastic_ip }}
         run: |
-          npx cdk deploy --require-approval never
+          npx cdk deploy --require-approval never --outputs-file ./cdk-output.json
+          echo "=== Raw outputs.json ==="
+          cat ./cdk-output.json
 
       - name: Show Outputs
         working-directory: infra
