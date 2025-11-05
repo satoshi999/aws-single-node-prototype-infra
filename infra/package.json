@@ -1,20 +1,21 @@
 {
   "name": "infra",
+  "private": true,
+  "volta": { "node": "20.10.0", "npm": "10.5.0" },
+  "type": "commonjs",
   "scripts": {
-    "synth": "cdk synth",
-    "deploy:ec2": "cdk deploy Ec2Stack",
-    "deploy:cognito": "cdk deploy CognitoStack"
+    "build": "tsc",
+    "ec2": "ts-node src/ec2.ts",
+    "cognito": "ts-node src/cognito.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ec2": "^3.677.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.677.0",
+    "@aws-sdk/client-ssm": "^3.677.0"
   },
   "devDependencies": {
-    "aws-cdk-lib": "^2.222.0",
-    "constructs": "^10.4.2",
-    "@types/node": "^20.11.30",
-    "source-map-support": "^0.5.21",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
-  },
-  "volta": {
-    "node": "20.11.1",
-    "npm": "10.5.0"
+    "typescript": "^5.6.3",
+    "@types/node": "^20.11.30"
   }
 }

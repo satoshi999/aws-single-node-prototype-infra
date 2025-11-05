@@ -5,11 +5,9 @@
     "moduleResolution": "node",
     "lib": ["es2021"],
     "types": ["node"],
-    "esModuleInterop": true,
-    "skipLibCheck": true,
     "strict": true,
-    "outDir": "dist",
-    "verbatimModuleSyntax": false
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
-  "include": ["bin", "lib"]
+  "include": ["src"]
 }
