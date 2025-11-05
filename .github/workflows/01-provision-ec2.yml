@@ -3,7 +3,7 @@ name: 01 Provision EC2 (one-time)
 on:
   workflow_dispatch:
     inputs:
-      use_elastic_ip:
+      use_eip:
         description: "Allocate & attach an Elastic IP?"
         default: "false"
         type: choice
@@ -45,7 +45,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ inputs.region }}
 
       - name: Create EC2
         id: ec2
