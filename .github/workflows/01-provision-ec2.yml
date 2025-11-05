@@ -5,7 +5,7 @@ on:
     inputs:
       use_elastic_ip:
         description: "Allocate & attach an Elastic IP?"
-        default: "true"
+        default: "false"
         type: choice
         options: ["true", "false"]
       instance_type:
@@ -55,7 +55,7 @@ jobs:
           EC2_TYPE: ${{ inputs.instance_type }}
           USE_EIP: ${{ inputs.use_elastic_ip }}
         run: |
-          npx cdk deploy --require-approval never --outputs-file ./cdk-output.json
+          npx cdk deploy Ec2Stack --require-approval never --outputs-file ./cdk-output.json
           echo "=== Raw outputs.json ==="
           cat ./cdk-output.json
 
