@@ -3,7 +3,7 @@ import {
   DescribeSubnetsCommand,
   CreateSecurityGroupCommand,
   AuthorizeSecurityGroupIngressCommand,
-  DescribeSecurityGroupsCommand,
+  DescribeImagesCommand,
   RunInstancesCommand,
   RunInstancesCommandInput,
   CreateTagsCommand,
@@ -22,6 +22,30 @@ function required(k: string) {
   const v = process.env[k];
   if (!v) throw new Error(`Missing env: ${k}`);
   return v;
+}
+
+async function getLatestUbuntu2404Ami() {
+  const res = await ec2.send(
+    new DescribeImagesCommand({
+      Owners: ["099720109477"], // Ubuntu公式
+      Filters: [
+        {
+          Name: "name",
+          Values: ["ubuntu/images/hvm-ssd/ubuntu-noble-24.04-amd64-server-*"],
+        },
+        { Name: "architecture", Values: ["x86_64"] },
+      ],
+    })
+  );
+
+  if (!res.Images?.length) throw new Error("Ubuntu 24.04 AMI not found");
+  // 最新作成日順でソート
+  const latest = res.Images.sort(
+    (a, b) =>
+      new Date(b.CreationDate!).getTime() - new Date(a.CreationDate!).getTime()
+  )[0];
+  console.log("✅ Latest Ubuntu 24.04 AMI:", latest.ImageId, latest.Name);
+  return latest.ImageId!;
 }
 
 async function getDefaultSubnetId(): Promise<string> {
@@ -97,10 +121,11 @@ runcmd:
 async function main() {
   const subnetId = await getDefaultSubnetId();
   const sgId = await createSg();
+  const ImageId = await getLatestUbuntu2404Ami();
 
   const run = await ec2.send(
     new RunInstancesCommand({
-      ImageId: "ami-0c3fd0f5d33134a76", // Ubuntu 22.04 in ap-northeast-1（必要なら差し替え）
+      ImageId: ImageId,
       InstanceType: INSTANCE_TYPE,
       KeyName: KEY_NAME,
       MinCount: 1,

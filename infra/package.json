@@ -10,8 +10,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-ec2": "^3.677.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.677.0",
-    "@aws-sdk/client-ssm": "^3.677.0"
+    "@aws-sdk/client-cognito-identity-provider": "^3.677.0"
   },
   "devDependencies": {
     "ts-node": "^10.9.2",
