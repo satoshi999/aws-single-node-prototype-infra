@@ -31,7 +31,9 @@ async function getLatestUbuntu2404Ami() {
       Filters: [
         {
           Name: "name",
-          Values: ["ubuntu/images/hvm-ssd/ubuntu-noble-24.04-amd64-server-*"],
+          Values: [
+            "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*",
+          ],
         },
         { Name: "architecture", Values: ["x86_64"] },
       ],
