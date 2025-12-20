@@ -45,6 +45,7 @@ async function main() {
   const up = await cognito.send(
     new CreateUserPoolCommand({
       PoolName: PROJECT,
+      UsernameAttributes: ["email"],
       AutoVerifiedAttributes: ["email"],
       AdminCreateUserConfig: { AllowAdminCreateUserOnly: false },
       AccountRecoverySetting: {
@@ -91,7 +92,7 @@ async function main() {
       AllowedOAuthFlowsUserPoolClient: true,
       AllowedOAuthFlows: ["code"],
       AllowedOAuthScopes: ["openid", "email", "profile"],
-      SupportedIdentityProviders: ["Google"],
+      SupportedIdentityProviders: ["Google", "COGNITO"],
       CallbackURLs: [CALLBACK_URL],
       LogoutURLs: [LOGOUT_URL],
     })
