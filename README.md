@@ -138,7 +138,7 @@ Cognito 構築も GitHub Actions の workflow として提供されており、
 ### 入力パラメータ
 * Environment 名（app1-dev / app1-prod）
 * Project 名（User Pool 名）
-* Callback URL（例: https://<domain>/）
+* Callback URL（例: https://${domain}/）
 * Logout URL（省略時は Callback URL を使用）
 * Region
 ---
