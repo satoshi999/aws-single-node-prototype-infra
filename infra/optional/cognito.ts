@@ -42,7 +42,7 @@ async function main() {
     })
   );
   const userPoolId = up.UserPool?.Id!;
-
+  /*
   // Hosted UI ドメイン（Google 連携で必須）
   await cognito.send(
     new CreateUserPoolDomainCommand({
@@ -50,7 +50,7 @@ async function main() {
       UserPoolId: userPoolId,
     })
   );
-
+  */
   // Google IdP を登録
   await cognito.send(
     new CreateIdentityProviderCommand({
