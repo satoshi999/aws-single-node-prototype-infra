@@ -9,6 +9,7 @@ on:
         type: string
       project_name:
         description: "Project name (=UserPool名)"
+        required: true
         default: "example-single-node-app"
         type: string
       domain_prefix:
