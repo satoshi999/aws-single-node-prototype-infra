@@ -143,6 +143,16 @@ async function main() {
       MaxCount: 1,
       SubnetId: subnetId,
       SecurityGroupIds: [sgId],
+      BlockDeviceMappings: [
+        {
+          DeviceName: "/dev/sda1",
+          Ebs: {
+            VolumeSize: 50,
+            VolumeType: "gp3",
+            DeleteOnTermination: true,
+          },
+        },
+      ],
       UserData: Buffer.from(USER_DATA).toString("base64"),
       TagSpecifications: [
         {
