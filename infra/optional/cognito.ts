@@ -3,10 +3,8 @@ import {
   CreateUserPoolDomainCommand,
   CreateUserPoolClientCommand,
   CreateIdentityProviderCommand,
-  ListUserPoolsCommand,
-  DescribeUserPoolCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
-import { cognito, REGION_CONST } from "./aws";
+import { cognito, REGION_CONST } from "../aws";
 
 const PROJECT = required("PROJECT_NAME");
 const DOMAIN_PREFIX = sanitize(env("COGNITO_DOMAIN_PREFIX", PROJECT));

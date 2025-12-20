@@ -1,8 +1,12 @@
-name: 01 Provision EC2 (one-time)
+name: Provision EC2
 
 on:
   workflow_dispatch:
     inputs:
+      environment:
+        description: "GitHub Environment (e.g. app1-dev, app1-prod)"
+        required: true
+        type: string
       use_eip:
         description: "Allocate & attach an Elastic IP?"
         default: "false"
@@ -14,11 +18,11 @@ on:
         type: string
       key_name:
         description: "Existing EC2 key pair name"
-        default: "aws-server-template-key"
+        default: "example-ec2-key"
         type: string
       project_name:
         description: "Project name (tag/prefix)"
-        default: "aws-server-template"
+        default: "example-single-node-app"
         type: string
       region:
         description: "AWS REGION"
@@ -28,6 +32,7 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
 

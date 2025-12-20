@@ -11,7 +11,7 @@ import {
   AssociateAddressCommand,
   DescribeInstancesCommand,
 } from "@aws-sdk/client-ec2";
-import { ec2, REGION_CONST } from "./aws";
+import { ec2, REGION_CONST } from "../aws";
 
 const PROJECT = required("PROJECT_NAME");
 const INSTANCE_TYPE = required("EC2_TYPE");

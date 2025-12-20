@@ -5,8 +5,8 @@
   "type": "commonjs",
   "scripts": {
     "build": "tsc",
-    "ec2": "ts-node src/ec2.ts",
-    "cognito": "ts-node src/cognito.ts"
+    "ec2": "ts-node core/ec2.ts",
+    "cognito": "ts-node optional/cognito.ts"
   },
   "dependencies": {
     "@aws-sdk/client-ec2": "^3.677.0",

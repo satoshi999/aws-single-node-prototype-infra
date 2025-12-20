@@ -1,16 +1,24 @@
-name: 02 Provision Cognito (one-time)
+name: Provision Cognito
 
 on:
   workflow_dispatch:
     inputs:
+      environment:
+        description: "GitHub Environment (e.g. app1-dev, app1-prod)"
+        required: true
+        type: string
       project_name:
         description: "Project name (=UserPool名)"
-        default: "aws-server-template"
+        default: "example-single-node-app"
         type: string
       domain_prefix:
-        description: "Domain prefix(半角英数字ハイフンのみで25文字以内)"
-        default: "server-template"
+        description: >
+          Domain prefix（任意）。
+          未指定の場合は project_name を元に自動生成。
+          使用可能文字: 半角英数字・ハイフン、最大25文字。
+        default: "example-single-node-app"
         type: string
+        required: false
       callback_url:
         description: "Callback URL (ex: http://<PublicIp>/)"
         type: string
@@ -27,6 +35,7 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node (match Volta)
