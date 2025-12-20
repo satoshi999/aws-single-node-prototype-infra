@@ -19,14 +19,17 @@ on:
         options: ["true", "false"]
       instance_type:
         description: "EC2 instance type"
+        required: true
         default: "t3.medium"
         type: string
       key_name:
         description: "Existing EC2 key pair name"
+        required: true
         default: "example-ec2-key"
         type: string
       project_name:
         description: "Project name (tag/prefix)"
+        required: true
         default: "example-single-node-app"
         type: string
       region:
