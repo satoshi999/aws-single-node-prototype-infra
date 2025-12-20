@@ -13,10 +13,7 @@ on:
         type: string
       domain_prefix:
         description: >
-          Domain prefix（任意）。
-          未指定の場合は project_name を元に自動生成。
-          使用可能文字: 半角英数字・ハイフン、最大25文字。
-        default: "example-single-node-app"
+          Domain prefix（任意）。未指定の場合は project_name を元に自動生成。使用可能文字: 半角英数字・ハイフン、最大25文字。
         type: string
         required: false
       callback_url:
