@@ -18,6 +18,7 @@ const PROJECT = required("PROJECT_NAME");
 const INSTANCE_TYPE = required("EC2_TYPE");
 const KEY_NAME = required("EC2_KEY_NAME");
 const USE_EIP = required("USE_EIP").toLowerCase() === "true";
+const ROOT_VOLUME_SIZE = Number(required("ROOT_VOLUME_SIZE"));
 
 function required(k: string): string {
   const v = process.env[k];
@@ -147,7 +148,7 @@ async function main() {
         {
           DeviceName: "/dev/sda1",
           Ebs: {
-            VolumeSize: 50,
+            VolumeSize: ROOT_VOLUME_SIZE,
             VolumeType: "gp3",
             DeleteOnTermination: true,
           },

@@ -7,6 +7,11 @@ on:
         description: "GitHub Environment (e.g. app1-dev, app1-prod)"
         required: true
         type: string
+      volume_size:
+        description: "Root volume size (GB)"
+        required: true
+        default: "50"
+        type: string
       use_eip:
         description: "Allocate & attach an Elastic IP?"
         default: "false"
@@ -60,6 +65,7 @@ jobs:
           EC2_TYPE: ${{ inputs.instance_type }}
           EC2_KEY_NAME: ${{ inputs.key_name }}
           USE_EIP: ${{ inputs.use_eip }}
+          ROOT_VOLUME_SIZE: ${{ inputs.volume_size }}
         run: npm run ec2
 
       - name: Show (parse from ec2.ts stdout)
