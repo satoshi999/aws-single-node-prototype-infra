@@ -87,7 +87,7 @@ async function main() {
   const app = await cognito.send(
     new CreateUserPoolClientCommand({
       UserPoolId: userPoolId,
-      ClientName: `${PROJECT}-web`,
+      ClientName: PROJECT,
       GenerateSecret: false,
       AllowedOAuthFlowsUserPoolClient: true,
       AllowedOAuthFlows: ["code"],
