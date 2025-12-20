@@ -19,9 +19,11 @@ const INSTANCE_TYPE = required("EC2_TYPE");
 const KEY_NAME = required("EC2_KEY_NAME");
 const USE_EIP = required("USE_EIP").toLowerCase() === "true";
 
-function required(k: string) {
+function required(k: string): string {
   const v = process.env[k];
-  if (!v) throw new Error(`Missing env: ${k}`);
+  if (v === undefined || v === "") {
+    throw new Error(`Missing env: ${k}`);
+  }
   return v;
 }
 

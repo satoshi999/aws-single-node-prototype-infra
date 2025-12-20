@@ -8,19 +8,23 @@ import {
 import { cognito, REGION_CONST } from "../aws";
 
 const PROJECT = required("PROJECT_NAME");
-const DOMAIN_PREFIX = sanitize(env("COGNITO_DOMAIN_PREFIX", PROJECT));
+const DOMAIN_PREFIX = sanitize(optional("COGNITO_DOMAIN_PREFIX", PROJECT));
 const CALLBACK_URL = required("COGNITO_CALLBACK_URL"); // 例: http://<PublicIp>/
-const LOGOUT_URL = env("COGNITO_LOGOUT_URL", CALLBACK_URL);
+const LOGOUT_URL = optional("COGNITO_LOGOUT_URL", CALLBACK_URL);
 const GOOGLE_ID = required("GOOGLE_OAUTH_CLIENT_ID");
 const GOOGLE_SECRET = required("GOOGLE_OAUTH_CLIENT_SECRET");
 
-function env(k: string, d?: string) {
-  return process.env[k] ?? d ?? "";
+function optional(k: string, d: string): string {
+  const v = process.env[k];
+  if (v === undefined || v === "") return d;
+  return v;
 }
 
-function required(k: string) {
-  const v = env(k);
-  if (!v) throw new Error(`Missing env: ${k}`);
+function required(k: string): string {
+  const v = process.env[k];
+  if (v === undefined || v === "") {
+    throw new Error(`Missing env: ${k}`);
+  }
   return v;
 }
 
