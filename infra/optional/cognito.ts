@@ -1,3 +1,4 @@
+import fs from "fs";
 import {
   CreateUserPoolCommand,
   CreateUserPoolDomainCommand,
@@ -28,6 +29,12 @@ function sanitize(s: string) {
     .toLowerCase()
     .replace(/[^a-z0-9-]/g, "-")
     .slice(0, 25);
+}
+
+function appendSummary(md: string) {
+  const path = process.env.GITHUB_STEP_SUMMARY;
+  if (!path) return; // ローカル実行時は何もしない
+  fs.appendFileSync(path, md);
 }
 
 async function main() {
@@ -95,6 +102,25 @@ async function main() {
     `Project=${PROJECT}\nUserPoolId=${userPoolId}\nUserPoolClientId=${app.UserPoolClient?.ClientId}\n` +
       `CognitoDomain=${domain}\nIssuer=${issuer}\nJwksUrl=${jwks}\nGoogleAuthorizedRedirectURI=${googleRedirect}`
   );
+
+  const summary = `
+  ## ✅ Cognito Provision Result
+
+  - **Project**: \`${PROJECT}\`
+  - **UserPoolId**: \`${userPoolId}\`
+  - **UserPoolClientId**: \`${app.UserPoolClient?.ClientId}\`
+  - **Cognito Domain**: \`${domain}\`
+  - **Issuer**: \`${issuer}\`
+  - **JWKS URL**:
+    ${jwks}
+
+  ### 🔁 Google OAuth Redirect URI
+  \`\`\`
+  ${googleRedirect}
+  \`\`\`
+  `;
+
+  appendSummary(summary);
 }
 
 main().catch((e) => {

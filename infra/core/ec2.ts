@@ -1,3 +1,4 @@
+import fs from "fs";
 import {
   DescribeVpcsCommand,
   DescribeSubnetsCommand,
@@ -22,6 +23,12 @@ function required(k: string) {
   const v = process.env[k];
   if (!v) throw new Error(`Missing env: ${k}`);
   return v;
+}
+
+function appendSummary(md: string) {
+  const path = process.env.GITHUB_STEP_SUMMARY;
+  if (!path) return; // ローカル実行時は何もしない
+  fs.appendFileSync(path, md);
 }
 
 async function getLatestUbuntu2404Ami() {
@@ -185,6 +192,22 @@ async function main() {
   console.log(
     `Project=${PROJECT}\nInstanceId=${instanceId}\nPublicIp=${publicIp}\nSshExample=${ssh}\nRegion=${REGION_CONST}`
   );
+
+  const summary = `
+  ## 🖥️ EC2 Provision Result
+
+  - **Project**: \`${PROJECT}\`
+  - **Region**: \`${REGION_CONST}\`
+  - **Instance ID**: \`${instanceId}\`
+  - **Public IP**: \`${publicIp}\`
+
+  ### 🔐 SSH 接続例
+  \`\`\`bash
+  ${ssh}
+  \`\`\`
+  `;
+
+  appendSummary(summary);
 }
 
 main().catch((e) => {

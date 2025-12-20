@@ -59,9 +59,3 @@ jobs:
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
           GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
         run: npm run cognito
-
-      - name: Note for Google console
-        run: |
-          echo "Add this Authorized redirect URI in Google Cloud:" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**https://<CognitoDomain>/oauth2/idpresponse**" >> $GITHUB_STEP_SUMMARY
