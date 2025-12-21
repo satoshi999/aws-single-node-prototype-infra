@@ -36,13 +36,13 @@
 
 このツールは、以下のようなアプリ構成を前提にしています。
 
-* 単一 EC2 ノード
+* 単一EC2ノード
 * 単一ポート（80 / 443）
 * Docker / docker-compose 運用
-* アプリ側で SSL 終端（例: Caddy）
+* アプリ側でSSL終端（例:Caddy）
 
 ※
-React / FastAPI に限りませんが、
+React / FastAPIに限りませんが、
 作者の `react-fastapi-prototype` リポジトリと思想的に対応しています。
 
 ---
@@ -70,8 +70,8 @@ React / FastAPI に限りませんが、
 ```text
 .
 ├── .github/workflows
-│   ├── provision-ec2.yml        # EC2 構築（必須）
-│   └── provision-cognito.yml    # Cognito 構築（任意）
+│   ├── provision-ec2.yml        # EC2 構築
+│   └── provision-cognito.yml    # Cognito 構築
 │
 ├── infra
 │   ├── package.json
@@ -89,68 +89,68 @@ React / FastAPI に限りませんが、
 
 ---
 
-## EC2 構築
+## EC2構築
 
 ### 概要
 
-* Ubuntu 24.04 固定
-* Instance type / Region は指定可能
-* Default VPC / Subnet を利用
-* 80 / 443 / 22 のみ開放
-* 初回起動時に Docker を自動インストール
+* Ubuntu 24.04固定
+* Instance type / Regionは指定可能
+* Default VPC / Subnetを利用
+* 80 / 443 / 22のみ開放
+* 初回起動時にDockerを自動インストール
 
 ### 実行方法
-実行時に、対象となる GitHub Environment（例: app1-dev / app1-prod）を指定してください。
-指定した Environment に設定された Secrets（AWS / Google 認証情報）が使用されます。
+実行時に、対象となるGitHub Environment（例: app1-dev / app1-prod）を指定してください。
+指定したEnvironmentに設定されたSecrets（AWS / Google認証情報）が使用されます。
 
-GitHub Actions の **Actions タブ**から
+GitHub Actionsの**Actions タブ**から
 `Provision EC2` workflow を手動実行します。
 
 ### 入力パラメータ
 * Environment 名（app1-dev / app1-prod）
-* Root volume size (GB)
-* Project 名（タグ用）
+* Root volume size(GB)
+* Project名（タグ用）
 * Instance Type
-* Key Pair 名
-* EIP 使用有無
+* Key Pair名
+* EIP使用有無
 * Region
 
 ---
 
-## Cognito 構築（Auth用）
+## Cognito構築（Auth用）
 
 ### 位置づけ
 
-Cognito 構築は 認証機能が必要になったら追加して下さい。
-EC2 構築とは独立して実行可能です。
+Cognito構築は認証機能が必要になったら追加して下さい。
+EC2構築とは独立して実行可能です。
 
-Cognito 構築も GitHub Actions の workflow として提供されており、
-実行時に 対象となる GitHub Environment を指定します。
+Cognito構築もGitHub Actionsのworkflow として提供されており、
+実行時に対象となるGitHub Environmentを指定します。
 
 ### 構築内容
 
 * User Pool
 * Google Identity Provider
 * Hosted UI（Classic）
-* SPA 向け OAuth Client（PKCE）
+* SPA向けOAuth Client（PKCE）
 * email / password 認証も併用可能
 
 ### 入力パラメータ
-* Environment 名（app1-dev / app1-prod）
-* Project 名（User Pool 名）
-* Callback URL（例: https://${domain}/）
-* Logout URL（省略時は Callback URL を使用）
+* Environment名（app1-dev / app1-prod）
+* Project名（User Pool名）
+* Callback URL（例:https://${domain}/）
+* Logout URL（省略時はCallback URLを使用）
 * Region
 ---
 
-## GitHub Environments による環境分離
+## GitHub Environmentsによる環境分離
 
-このリポジトリでは **GitHub Environments** を使い、
+このリポジトリでは**GitHub Environments**を使い、
 
 * アプリ毎
 * 開発 / 本番毎
 
-に **認証情報を分離**する運用にしています。
+に**認証情報を分離**する運用にしています。
 
 ### 環境の例
 
@@ -161,15 +161,15 @@ app2-dev
 app2-prod
 ```
 
-### Environment に設定するもの（Secrets）
+### Environmentに設定するもの（Secrets）
 
 * `AWS_ACCESS_KEY_ID`
 * `AWS_SECRET_ACCESS_KEY`
 * `GOOGLE_OAUTH_CLIENT_ID`（Auth 使用時）
 * `GOOGLE_OAUTH_CLIENT_SECRET`（Auth 使用時）
 
-Secrets は Environment から自動で読み込まれ、
-同じ workflow でも **環境を切り替えて実行**できます。
+SecretsはEnvironmentから自動で読み込まれ、
+同じworkflowでも**環境を切り替えて実行**できます。
 
 ---
 
