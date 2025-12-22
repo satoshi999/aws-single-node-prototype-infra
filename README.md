@@ -43,7 +43,7 @@
 
 ※
 React / FastAPIに限りませんが、
-作者の `react-fastapi-prototype` リポジトリと思想的に対応しています。
+作者の [`react-fastapi-prototype`](https://github.com/satoshi999/react-fastapi-prototype) リポジトリと思想的に対応しています。
 
 ---
 
