@@ -1,6 +1,6 @@
 # aws-single-node-prototype-infra
 
-**Single-node / Single-port な即席アプリ向けの AWS インフラ構築ツール**
+**単一ノード / 単一ポートな即席アプリ向けのAWSインフラ構築ツール**
 
  EC2 + Cognito (Google OAuth)
 
