@@ -32,6 +32,7 @@ on:
 
 jobs:
   run:
+    if: ${{ github.repository != 'satoshi999/aws-single-node-prototype-infra' }}
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
