@@ -198,6 +198,17 @@ SecretsはEnvironmentから自動で読み込まれ、
 * 大規模 / 高可用性システム
 
 ---
+
+## GitHub Actions の実行について
+
+本リポジトリは設計・実装を公開する目的で public としています。
+GitHub Actions の実行ログは public リポジトリでは第三者に公開されるため、
+workflow は本家リポジトリでは実行できないようにガードされています。
+
+利用する場合は 「Use this template」から private リポジトリを作成し、
+private 環境で GitHub Actions を実行してください。
+
+---
 ## License
 
 MIT License
